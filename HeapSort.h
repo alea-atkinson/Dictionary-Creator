@@ -1,9 +1,9 @@
 #pragma once
 #include "word.h"
 vector<word> heapSort(vector<word> words, int size);
-void buildHeap(vector<word> words, int size);
-void heapifyDown(vector<word> words, int size, int index);
-void extractMax(vector<word> words, int size);
+void buildHeap(vector<word>& words, int size);
+void heapifyDown(vector<word>& words, int size, int index);
+void extractMax(vector<word>& words, int size);
 
 //replace int with Word
 vector<word> heapSort(vector<word> words, int size){
@@ -16,22 +16,23 @@ vector<word> heapSort(vector<word> words, int size){
     return words;
 }
 //from discussion slides: Discussion 8 - Sorting.pdf (slide 15)
-void buildHeap(vector<word> words, int size){
+void buildHeap(vector<word>& words, int size){
     int startNode= (size/2)-1; //position of last internal node
     for(int i=startNode; i>=0; i--){
         heapifyDown(words, size, i);
     }
 }
-//adapted from programming quiz 6
-void extractMax(vector<word> words, int size){
+
+void extractMax(vector<word>& words, int size){
     //swap first and last element (put max at the back of the array)
     word temp= words[0];
     words[0]=words[size-1];
     words[size-1]=temp;
+    size--; //decrement size before calling heapify
     heapifyDown(words, size, 0);
 }
-
-void heapifyDown(vector<word> words, int size, int index){
+//adapted from programming quiz 6
+void heapifyDown(vector<word>& words, int size, int index){
     if(2*(index)+1>=size && 2*(index)+2>=size){
         //leaf node
     }
