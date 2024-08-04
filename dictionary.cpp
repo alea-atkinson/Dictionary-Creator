@@ -2,51 +2,24 @@
 #include <iostream>
 #include <algorithm>
 
-Dictionary::WordEntry::WordEntry() : searchCount(0) {}
-
-Dictionary::WordEntry::WordEntry(const std::string& w, const std::string& def, const std::vector<std::string>& syns)
-        : word(w), definition(def), synonyms(syns), searchCount(0) {}
 
 Dictionary::Dictionary() {}
 
-void Dictionary::addWord(const std::string& word, const std::string& definition, const std::vector<std::string>& synonyms) {
-    words.push_back(WordEntry(word, definition, synonyms));
+void Dictionary::addWord(const std::string& term, const std::string& definition, const std::vector<std::string>& synonyms) {
+    words.push_back(word(term, definition, synonyms));
 }
 
-void Dictionary::heapify(int n, int i) {
-    int largest = i;
-    int left = 2 * i + 1;
-    int right = 2 * i + 2;
-
-    if (left < n && words[left].word > words[largest].word)
-        largest = left;
-
-    if (right < n && words[right].word > words[largest].word)
-        largest = right;
-
-    if (largest != i) {
-        std::swap(words[i], words[largest]);
-        heapify(n, largest);
-    }
-}
 
 void Dictionary::heapSortAlphabetically() {
-    int n = words.size();
-    for (int i = n / 2 - 1; i >= 0; i--)
-        heapify(n, i);
-
-    for (int i = n - 1; i >= 0; i--) {
-        std::swap(words[0], words[i]);
-        heapify(i, 0);
-    }
+    words=heapSort(words, words.size());
 }
 
 void Dictionary::merge(int l, int m, int r) {
     int n1 = m - l + 1;
     int n2 = r - m;
 
-    std::vector<WordEntry> L(n1);
-    std::vector<WordEntry> R(n2);
+    std::vector<word> L(n1);
+    std::vector<word> R(n2);
 
     for (int i = 0; i < n1; i++)
         L[i] = words[l + i];
@@ -55,7 +28,7 @@ void Dictionary::merge(int l, int m, int r) {
 
     int i = 0, j = 0, k = l;
     while (i < n1 && j < n2) {
-        if (L[i].searchCount <= R[j].searchCount) {
+        if (L[i].searchCount()<= R[j].searchCount()) {
             words[k] = L[i];
             i++;
         } else {
@@ -96,10 +69,10 @@ int Dictionary::binarySearch(const std::string& word) const {
     int left = 0, right = words.size() - 1;
     while (left <= right) {
         int mid = left + (right - left) / 2;
-        if (words[mid].word == word) {
+        if (words[mid].getTerm() == word) {
             return mid;
         }
-        if (words[mid].word < word)
+        if (words[mid].getTerm() < word)
             left = mid + 1;
         else
             right = mid - 1;
@@ -107,11 +80,12 @@ int Dictionary::binarySearch(const std::string& word) const {
     return -1;
 }
 
-bool Dictionary::searchWord(const std::string& word, std::string& definition, std::vector<std::string>& synonyms) const {
+bool Dictionary::searchWord(const std::string& word, std::string& definition, std::vector<std::string>& synonyms) {
     int index = binarySearch(word);
     if (index != -1) {
-        definition = words[index].definition;
-        synonyms = words[index].synonyms;
+        definition = words[index].getDefinition();
+        synonyms = words[index].getSynoynms();
+        words[index].addSearch();
         return true;
     }
     return false;
@@ -127,12 +101,11 @@ void Dictionary::sortBySearchCount() {
 
 void Dictionary::displayAllWords() const {
     for (const auto& entry : words) {
-        std::cout << "Word: " << entry.word << "; Definition: " << entry.definition << "; Synonyms: ";
-
-        if (!entry.synonyms.empty()) {
-            for (size_t i = 0; i < entry.synonyms.size(); ++i) {
-                std::cout << entry.synonyms[i];
-                if (i < entry.synonyms.size() - 1) {
+        std::cout << "Word: " << entry.getTerm() << "; Definition: " << entry.getDefinition() << "; Synonyms: ";
+        if (!entry.getSynoynms().empty()) {
+            for (size_t i = 0; i < entry.getSynoynms().size(); ++i) {
+                std::cout << entry.getSynoynms()[i];
+                if (i < entry.getSynoynms().size() - 1) {
                     std::cout << ", ";
                 }
             }
