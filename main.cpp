@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <fstream>
 #include <limits>
 #include "dictionary.h"
 
@@ -10,7 +11,8 @@ void displayMenu() {
     std::cout << "3. Sort by Search Count" << std::endl;
     std::cout << "4. Search Word" << std::endl;
     std::cout << "5. Display All Words" << std::endl;
-    std::cout << "6. Exit" << std::endl;
+    std::cout << "6. Load in Existing Dictionary" << std::endl;
+    std::cout << "7. Exit" << std::endl;
 }
 
 // function to ensure that input is not empty
@@ -49,7 +51,7 @@ int getValidChoice() {
             choice = 0; // invalid input
         }
 
-        if (choice < 1 || choice > 6) {
+        if (choice < 1 || choice > 7) {
             std::cout << "Invalid choice. Please enter a number between 1 and 6." << std::endl;
             displayMenu();
         } else {
@@ -63,9 +65,10 @@ int getValidChoice() {
 int main() {
     Dictionary dict;
     int choice;
-    std::string word, definition, synonym;
+    std::string word, definition, synonym, fileName, numLines;
     std::vector<std::string> synonyms;
     std::cout << "Personal Dictionary Creator";
+    std::ifstream file("data");
 
     // while function for display menu
     while (true) {
@@ -114,8 +117,24 @@ int main() {
             case 5:
                 dict.displayAllWords();
                 break;
-            // exit menu
             case 6:
+                if (!file.is_open()) {
+                    std::cout << "Invalid dictionary file" << std::endl;
+                }
+                else{
+                    std::getline(file, numLines); // number of lines that follow --> numLines/2 = number of words to add
+                    //int newWords = std::stoi(numLines) / 2;
+                    for (int i = 0; i < stoi(numLines)/2; i++) {
+                        std::getline(file, word);
+                        std::getline(file, definition);
+                        dict.addWord(word, definition, synonyms);
+                    }
+                    file.close();
+                }
+                break;
+
+            // exit menu
+            case 7:
                 return 0;
             default:
                 std::cout << "Invalid choice. Please try again." << std::endl;

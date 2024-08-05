@@ -3,10 +3,12 @@
 
 #include <string>
 #include <vector>
+#include "word.h"
+#include "HeapSort.h"
 
 class Dictionary {
 public:
-    struct WordEntry {
+    /*struct WordEntry {
         std::string word;
         std::string definition;
         std::vector<std::string> synonyms;
@@ -14,7 +16,7 @@ public:
 
         WordEntry();
         WordEntry(const std::string& w, const std::string& def, const std::vector<std::string>& syns);
-    };
+    };*/
 
     Dictionary();
 
@@ -29,7 +31,7 @@ public:
     void displayAllWords() const;
 
 private:
-    std::vector<WordEntry> words;
+    std::vector<word> words;
 
     void heapify(int n, int i);
     void merge(int l, int m, int r);
