@@ -78,7 +78,7 @@ int Dictionary::binarySearch(const std::string& word) const {
     return -1;
 }
 
-bool Dictionary::searchWord(const std::string& word, std::string& definition, std::vector<std::string>& synonyms) const {
+bool Dictionary::searchWord(const std::string& word, std::string& definition, std::vector<std::string>& synonyms) {
     int index = binarySearch(word);
     if (index != -1) {
         definition = words[index].getDefinition();
