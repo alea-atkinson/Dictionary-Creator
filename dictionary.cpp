@@ -6,10 +6,12 @@ Dictionary::Dictionary() {}
 
 void Dictionary::addWord(const std::string& term, const std::string& definition, const std::vector<std::string>& synonyms) {
     words.push_back(word(term, definition, synonyms));
+    alphabetic=false;
 }
 
 void Dictionary::heapSortAlphabetically() {
     words=heapSort(words, words.size());
+    alphabetic=true;
 }
 
 void Dictionary::merge(int l, int m, int r) {
@@ -63,7 +65,7 @@ void Dictionary::mergeSortBySearchCount() {
     mergeSort(0, words.size() - 1);
 }
 
-int Dictionary::binarySearch(const std::string& word) const {
+int Dictionary::binarySearch(std::string word) {
     int left = 0, right = words.size() - 1;
     while (left <= right) {
         int mid = left + (right - left) / 2;
@@ -78,13 +80,23 @@ int Dictionary::binarySearch(const std::string& word) const {
     return -1;
 }
 
-bool Dictionary::searchWord(const std::string& word, std::string& definition, std::vector<std::string>& synonyms) const {
-    int index = binarySearch(word);
+bool Dictionary::searchWord(std::string word, std::string definition, std::vector<std::string> synonyms) {
+    int index;
+    if(alphabetic){
+        index = binarySearch(word);
+    }
+    else{
+        for(int i=0; i<words.size(); i++){
+            if(words[i].getTerm()==word){
+                index=i;
+            }
+        }
+    }
     if (index != -1) {
-        definition = words[index].getDefinition();
-        synonyms = words[index].getSynoynms();
-        words[index].addSearch();
-        return true;
+        if(definition == words[index].getDefinition() && synonyms == words[index].getSynoynms()){
+            words[index].addSearch();
+            return true;
+        }
     }
     return false;
 }
@@ -97,9 +109,11 @@ void Dictionary::sortBySearchCount() {
     mergeSortBySearchCount();
 }
 
-void Dictionary::displayAllWords() const {
+vector<string> Dictionary::displayAllWords() const {
+    vector<string> display; //return vector for testing
     for (const auto& entry : words) {
         std::cout << "Word: " << entry.getTerm() << "; Definition: " << entry.getDefinition() << "; Synonyms: ";
+        display.push_back(entry.getTerm());
         if (!entry.getSynoynms().empty()) {
             for (size_t i = 0; i < entry.getSynoynms().size(); ++i) {
                 std::cout << entry.getSynoynms()[i];
@@ -113,4 +127,72 @@ void Dictionary::displayAllWords() const {
 
         std::cout << std::endl;
     }
+    return display;
 }
+
+void Dictionary::heapifyDown(vector<word>& words, int size, int index){
+    if(2*(index)+1>=size && 2*(index)+2>=size){
+        //leaf node
+    }
+        //only left node
+    else if(2*(index)+1<size && 2*(index)+2>=size){
+        //if child is greater than parent
+        if(words[2*(index)+1].getTerm()>words[index].getTerm()){
+            //swap
+            word temp=words[index];
+            words[index]=words[2*(index)+1];
+            words[2*(index)+1]=temp;
+            //call heapify on child
+            heapifyDown(words, 2*(index)+1, size);
+        }
+    }
+        //both children
+    else{
+        //one or more children is greater
+        if(words[2*(index)+1].getTerm()>words[index].getTerm() ||  words[2*(index)+2].getTerm()>words[index].getTerm()){
+            //left is greater
+            if(words[2*(index)+1].getTerm()>words[2*(index)+2].getTerm()){
+                //swap
+                word temp=words[index];
+                words[index]=words[2*(index)+1];
+                words[2*(index)+1]=temp;
+                //call heapify on child
+                heapifyDown(words, 2*(index)+1, size);
+            }
+                //right is greater
+            else{
+                //swap
+                word temp=words[index];
+                words[index]=words[2*(index)+2];
+                words[2*(index)+2]=temp;
+                //call heapify on child
+                heapifyDown(words, 2*(index)+2, size);
+            }
+        }
+    }
+}
+void Dictionary::extractMax(vector<word>& words, int size){
+    //swap first and last element (put max at the back of the array)
+    word temp= words[0];
+    words[0]=words[size-1];
+    words[size-1]=temp;
+    size--; //decrement size before calling heapify
+    heapifyDown(words, size, 0);
+}
+//from discussion slides: Discussion 8 - Sorting.pdf (slide 15)
+void Dictionary::buildHeap(vector<word>& words, int size){
+    int startNode= (size/2)-1; //position of last internal node
+    for(int i=startNode; i>=0; i--){
+        heapifyDown(words, size, i);
+    }
+}
+vector<word> Dictionary::heapSort(vector<word> words, int size){
+    buildHeap(words, size);
+    int sizeIndex=size;
+    for(int i=0; i<size; i++){
+        extractMax(words, sizeIndex);
+        sizeIndex--; //"delete" the last element (already sorted)
+    }
+    return words;
+}
+
