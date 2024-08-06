@@ -3,7 +3,7 @@
 #include <fstream>
 #include <limits>
 #include "dictionary.h"
-/*
+
 void displayMenu() {
     std::cout << "\nDictionary Menu:" << std::endl;
     std::cout << "1. Add Word" << std::endl;
@@ -68,7 +68,6 @@ int main() {
     std::string word, definition, synonym, fileName, numLines;
     std::vector<std::string> synonyms;
     std::cout << "Personal Dictionary Creator";
-    std::ifstream file("data");
 
     // while function for display menu
     while (true) {
@@ -118,18 +117,23 @@ int main() {
                 dict.displayAllWords();
                 break;
             case 6:
-                if (!file.is_open()) {
-                    std::cout << "Invalid dictionary file" << std::endl;
-                }
-                else{
-                    std::getline(file, numLines); // number of lines that follow --> numLines/2 = number of words to add
-                    //int newWords = std::stoi(numLines) / 2;
-                    for (int i = 0; i < stoi(numLines)/2; i++) {
-                        std::getline(file, word);
-                        std::getline(file, definition);
-                        dict.addWord(word, definition, synonyms);
+                fileName = getNonEmptyInput("Enter file path: "); // copy and paste absolute path from data text file
+                {
+                    std::ifstream file(fileName);
+                    if (!file.is_open()) {
+                        std::cout << "Invalid dictionary file" << std::endl;
                     }
-                    file.close();
+                    else{
+                        std::getline(file, numLines); // number of lines that follow --> numLines/2 = number of words to add
+                        //int newWords = std::stoi(numLines) / 2;
+                        for (int i = 0; i < stoi(numLines)/2; i++) {
+                            std::getline(file, word);
+                            std::getline(file, definition);
+                            dict.addWord(word, definition, synonyms);
+                        }
+                        file.close();
+                        cout << "Dictionary imported successfully." << endl;
+                    }
                 }
                 break;
 
@@ -143,4 +147,3 @@ int main() {
 
     return 0;
 }
-*/

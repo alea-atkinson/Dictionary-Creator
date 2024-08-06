@@ -1,4 +1,4 @@
-#define CATCH_CONFIG_MAIN
+/*#define CATCH_CONFIG_MAIN
 #include "C:\Users\maite\CLionProjects\Project1\Project1\test-unit\catch.hpp"
 #include "word.h"
 #include "HeapSort.h"
@@ -102,3 +102,4 @@ TEST_CASE("IMPORT DICTIONARY"){
     REQUIRE(dict.searchWord("minute", "infinitely or immeasurably small",{})==true);
     REQUIRE(dict.searchWord("accord", "concurrence of opinion" ,{})==true);
 }
+*/
