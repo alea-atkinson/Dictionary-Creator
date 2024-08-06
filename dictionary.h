@@ -24,7 +24,7 @@ public:
     void heapSortAlphabetically();
     void mergeSortBySearchCount();
 
-    bool searchWord(std::string word, std::string definition, std::vector<std::string> synonyms);
+    vector<string> searchWord(std::string word);
     void sortAlphabetically();
     void sortBySearchCount();
     vector<string> displayAllWords() const;
