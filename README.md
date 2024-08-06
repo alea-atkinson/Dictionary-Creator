@@ -6,5 +6,6 @@ INSTRUCTIONS: Follow directions printed to the console to add and display terms.
  3. Sort by Search Count
  4. Search Word
  5. Display All Words
- 6. Exit
+ 6. Load in Existing Dictionary
+ 7. Exit
   
