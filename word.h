@@ -9,6 +9,7 @@ class word{
     vector<string> synonyms;
     int searches;
 public:
+    word();
     word(string newTerm, string newDefinition); //construct without synoymns
     word(string newTerm, string newDefinition, vector<string> newSynoymns); //construct with synoynms
     void addSynonyms(vector<string> newSynoymns); //add synonyms by vector

@@ -40,7 +40,7 @@ TEST_CASE("HEAP SORT"){
     }
 }
 
-/*
+
 TEST_CASE("SEARCH AND MERGE SORT"){
     Dictionary dict;
     dict.addWord("zebra", "test", {});
@@ -49,6 +49,7 @@ TEST_CASE("SEARCH AND MERGE SORT"){
     dict.addWord("anaconda", "test", {});
     dict.addWord("bat", "test", {});
     dict.addWord("monkey", "test", {});
+    dict.addWord("elephant", "test", {});
     dict.searchWord("zebra", "test",{});
     dict.searchWord("zebra", "test",{});
     dict.searchWord("llama", "test",{});
@@ -66,7 +67,7 @@ TEST_CASE("SEARCH AND MERGE SORT"){
     REQUIRE(newWords[4]=="llama");
     REQUIRE(newWords[5]=="zebra");
     REQUIRE(newWords[6]=="monkey");
-}*/
+}
 
 TEST_CASE("WORD NOT FOUND"){
     Dictionary dict;
@@ -84,11 +85,10 @@ TEST_CASE("WORD NOT FOUND"){
 
 TEST_CASE("IMPORT DICTIONARY"){
     Dictionary dict;
-    std::ifstream file("data");
+    std::ifstream file("C:\\Users\\maite\\CLionProjects\\Dictionary-Creator\\data");
 
     std::string line;
     std::getline(file, line);
-   // int numLines = std::stoi(line);
     std::vector<std::string> synonyms;
 
     for (int i = 0; i < stoi(line) / 2; ++i) {
@@ -98,7 +98,7 @@ TEST_CASE("IMPORT DICTIONARY"){
         dict.addWord(word, definition, synonyms);
     }
 
-    REQUIRE(dict.searchWord("deem", "consider to be", {})==true);
+    REQUIRE(dict.searchWord("consider", "deem to be", {})==true);
     REQUIRE(dict.searchWord("minute", "infinitely or immeasurably small",{})==true);
     REQUIRE(dict.searchWord("accord", "concurrence of opinion" ,{})==true);
 }

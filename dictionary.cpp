@@ -19,8 +19,10 @@ void Dictionary::merge(int l, int m, int r) {
     int n1 = m - l + 1;
     int n2 = r - m;
 
-    std::vector<word> L;
-    std::vector<word> R;
+    //std::vector<word> L;
+    //std::vector<word> R;
+    std::vector<word> L(n1);
+    std::vector<word> R(n2);
 
     for (int i = 0; i < n1; ++i)
         L[i] = words[l + i];
@@ -82,7 +84,7 @@ int Dictionary::binarySearch(std::string word) {
 }
 
 bool Dictionary::searchWord(std::string word, std::string definition, std::vector<std::string> synonyms) {
-    int index;
+    int index = -1;
     if(alphabetic){
         index = binarySearch(word);
     }

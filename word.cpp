@@ -1,5 +1,11 @@
 #include "word.h"
 
+word::word(){
+    term = "";
+    definition = "";
+    synonyms = {};
+    searches = 0;
+}
 word::word(string newTerm, string newDefinition) {
     term=newTerm;
     definition=newDefinition;
