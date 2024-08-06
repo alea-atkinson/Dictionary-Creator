@@ -3,7 +3,7 @@
 #include <fstream>
 #include <limits>
 #include "dictionary.h"
-
+/*
 void displayMenu() {
     std::cout << "\nDictionary Menu:" << std::endl;
     std::cout << "1. Add Word" << std::endl;
@@ -143,3 +143,4 @@ int main() {
 
     return 0;
 }
+*/
