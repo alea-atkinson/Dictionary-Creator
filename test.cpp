@@ -85,7 +85,7 @@
 //
 //TEST_CASE("IMPORT DICTIONARY"){
 //    Dictionary dict;
-//    std::ifstream file("/Users/danielaromaguera/Desktop/folder/school/UF/cop3530/project 3/Dictionary-Creator/data");
+//    std::ifstream file("/Users/danielaromaguera/Desktop/my shit/school/UF/cop3530/project 3/Dictionary-Creator/data");
 //
 //    std::string line;
 //    std::getline(file, line);

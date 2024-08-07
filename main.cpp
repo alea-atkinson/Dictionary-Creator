@@ -139,6 +139,7 @@ int main() {
                         std::cout << "Invalid dictionary file" << std::endl;
                     }
                     else{
+                        dict.clear();
                         std::getline(file, numLines); // number of lines that follow --> numLines/2 = number of words to add
                         //int newWords = std::stoi(numLines) / 2;
                         for (int i = 0; i < stoi(numLines)/2; i++) {

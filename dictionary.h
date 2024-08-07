@@ -20,7 +20,7 @@ public:
     Dictionary();
 
     void addWord(const std::string& word, const std::string& definition, const std::vector<std::string>& synonyms);
-
+    void clear();
     void heapSortAlphabetically();
     void mergeSortBySearchCount();
 

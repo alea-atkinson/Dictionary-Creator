@@ -196,5 +196,8 @@ vector<word> Dictionary::heapSort(vector<word> words, int size){
     }
     return words;
 }
-
+void Dictionary::clear() {
+    words.clear();
+    alphabetic = false;
+}
 
