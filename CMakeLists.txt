@@ -7,4 +7,5 @@ add_executable(Project_3_Test main.cpp
     dictionary.h
     dictionary.cpp
     word.h
-    word.cpp)
+    word.cpp
+        test.cpp)
