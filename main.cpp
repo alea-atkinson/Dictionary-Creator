@@ -68,6 +68,8 @@ int main() {
     std::string word, definition, synonym, fileName, numLines;
     std::vector<std::string> synonyms;
     std::cout << "Personal Dictionary Creator";
+    std::ifstream file("data");
+    vector<string>wordInfo;
 
     // while function for display menu
     while (true) {
@@ -81,13 +83,14 @@ int main() {
                 definition = getNonEmptyInput("Enter definition: ");
                 synonyms.clear();
                 while (true) {
-                    std::cout << "Enter synonyms (type 'done' to finish): ";
+                    std::cout << "Enter synonyms (type 'done' to finish): "<<endl;
                     synonym = getNonEmptyInput("");
                     if (synonym == "done")
                         break;
                     synonyms.push_back(synonym);
                 }
                 dict.addWord(word, definition, synonyms);
+                std::cout << "Successfully added!"<<endl;
                 break;
             // sort alphabetically
             case 2:
@@ -99,16 +102,30 @@ int main() {
                 dict.sortBySearchCount();
                 std::cout << "Dictionary sorted by search count." << std::endl;
                 break;
-            // search funtion
+            // search function
             case 4:
                 word = getNonEmptyInput("Enter word to search: ");
-                if (dict.searchWord(word, definition, synonyms)) {
-                    std::cout << "Definition: " << definition << std::endl;
+                wordInfo=dict.searchWord(word);
+                if (wordInfo.size()!=0) {
+                    std::cout << "Definition: " << wordInfo[0] << std::endl;
                     std::cout << "Synonyms: ";
-                    for (const auto& syn : synonyms)
-                        std::cout << syn << " ";
-                    std::cout << std::endl;
-                } else {
+                    if(wordInfo.size()==1){
+                        std::cout<<"none"<<endl;
+                    }
+                    else{
+                        for(int i=1; i<wordInfo.size(); i++){
+                            if(i!=wordInfo.size()-1) {
+                                std::cout << wordInfo[i] << ", ";
+                            }
+                            else{
+                                std::cout<<wordInfo[i]<<endl;
+                            }
+
+                        }
+                    }
+                }
+                else
+                {
                     std::cout << "Word not found." << std::endl;
                 }
                 break;
@@ -117,23 +134,42 @@ int main() {
                 dict.displayAllWords();
                 break;
             case 6:
-                fileName = getNonEmptyInput("Enter file path: "); // copy and paste absolute path from data text file
-                {
-                    std::ifstream file(fileName);
-                    if (!file.is_open()) {
-                        std::cout << "Invalid dictionary file" << std::endl;
-                    }
-                    else{
-                        std::getline(file, numLines); // number of lines that follow --> numLines/2 = number of words to add
-                        //int newWords = std::stoi(numLines) / 2;
-                        for (int i = 0; i < stoi(numLines)/2; i++) {
-                            std::getline(file, word);
-                            std::getline(file, definition);
-                            dict.addWord(word, definition, synonyms);
+                if (file.is_open()) {
+                    std::cout << "Invalid dictionary file" << std::endl;
+                }
+                else{
+                    string userFile;
+                    std::cout<<"Enter file name: "<<endl;
+                    numLines="1960";
+                    std::cin>>userFile;
+                    ifstream file1;
+                    file1.open(userFile);
+                    //std::getline(file1, numLines); // number of lines that follow --> numLines/2 = number of words to add
+                    //int newWords = std::stoi(numLines) / 2;
+                    /*for (int i = 0; i < stoi(numLines)/2; i++) {
+                        std::getline(file1, word);
+                        std::getline(file1, definition);
+                        dict.addWord(word, definition, synonyms);
+                    }*/
+                    bool isWord=true;
+                    string dataPoint;
+                    vector<string> fileWords;
+                    vector<string>fileDefinitions;
+                    while (std::getline(file1, dataPoint)) {
+                        // Add to the list of output strings
+                        if(isWord){
+                            fileWords.push_back(dataPoint);
+                            isWord=false;
                         }
-                        file.close();
-                        cout << "Dictionary imported successfully." << endl;
+                        else{
+                            fileDefinitions.push_back(dataPoint);
+                            isWord=true;
+                        }
                     }
+                    for(int i=0; i<fileWords.size(); i++){
+                        dict.addWord(fileWords[i], fileDefinitions[i], {});
+                    }
+                    file1.close();
                 }
                 break;
 
