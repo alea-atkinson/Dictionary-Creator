@@ -68,6 +68,7 @@ int main() {
     std::string word, definition, synonym, fileName, numLines;
     std::vector<std::string> synonyms;
     std::cout << "Personal Dictionary Creator";
+    vector<string>wordInfo;
 
     // while function for display menu
     while (true) {
@@ -102,13 +103,27 @@ int main() {
             // search funtion
             case 4:
                 word = getNonEmptyInput("Enter word to search: ");
-                if (dict.searchWord(word, definition, synonyms)) {
-                    std::cout << "Definition: " << definition << std::endl;
+                wordInfo=dict.searchWord(word);
+                if (wordInfo.size()!=0) {
+                    std::cout << "Definition: " << wordInfo[0] << std::endl;
                     std::cout << "Synonyms: ";
-                    for (const auto& syn : synonyms)
-                        std::cout << syn << " ";
-                    std::cout << std::endl;
-                } else {
+                    if(wordInfo.size()==1){
+                        std::cout<<"none"<<endl;
+                    }
+                    else{
+                        for(int i=1; i<wordInfo.size(); i++){
+                            if(i!=wordInfo.size()-1) {
+                                std::cout << wordInfo[i] << ", ";
+                            }
+                            else{
+                                std::cout<<wordInfo[i]<<endl;
+                            }
+
+                        }
+                    }
+                }
+                else
+                {
                     std::cout << "Word not found." << std::endl;
                 }
                 break;
