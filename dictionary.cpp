@@ -83,8 +83,9 @@ int Dictionary::binarySearch(std::string word) {
     return -1;
 }
 
-bool Dictionary::searchWord(std::string word, std::string definition, std::vector<std::string> synonyms) {
+vector<string> Dictionary::searchWord(std::string word) {
     int index = -1;
+    vector<string>wordInfo;
     if(alphabetic){
         index = binarySearch(word);
     }
@@ -96,12 +97,13 @@ bool Dictionary::searchWord(std::string word, std::string definition, std::vecto
         }
     }
     if (index != -1) {
-        if(definition == words[index].getDefinition() && synonyms == words[index].getSynoynms()){
             words[index].addSearch();
-            return true;
-        }
+            wordInfo.push_back(words[index].getDefinition());
+            for(int i=0; i<words[index].getSynoynms().size(); i++){
+                wordInfo.push_back(words[index].getSynoynms()[i]);
+            }
     }
-    return false;
+    return wordInfo;
 }
 
 void Dictionary::sortAlphabetically() {
