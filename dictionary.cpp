@@ -110,10 +110,6 @@ void Dictionary::sortAlphabetically() {
     heapSortAlphabetically();
 }
 
-void Dictionary::sortBySearchCount() {
-    mergeSortBySearchCount();
-}
-
 vector<string> Dictionary::displayAllWords() const {
     vector<string> display; //return vector for testing
     for (const auto& entry : words) {

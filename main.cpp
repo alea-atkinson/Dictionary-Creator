@@ -97,7 +97,7 @@ int main() {
                 break;
             // sort by search count
             case 3:
-                dict.sortBySearchCount();
+                dict.mergeSortBySearchCount();
                 std::cout << "Dictionary sorted by search count." << std::endl;
                 break;
             // search funtion
@@ -154,6 +154,7 @@ int main() {
 
             // exit menu
             case 7:
+                cout << "Exiting...";
                 return 0;
             default:
                 std::cout << "Invalid choice. Please try again." << std::endl;

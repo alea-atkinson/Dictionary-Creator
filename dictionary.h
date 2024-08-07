@@ -26,7 +26,6 @@ public:
 
     vector<string> searchWord(std::string word);
     void sortAlphabetically();
-    void sortBySearchCount();
     vector<string> displayAllWords() const;
 
 
