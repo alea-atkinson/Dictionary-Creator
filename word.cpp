@@ -28,6 +28,7 @@ void word::addSynonym(string synonym) {
     synonyms.push_back(synonym);
 }
 
+
 void word::addSearch() {
     searches++;
 }
@@ -35,6 +36,7 @@ void word::addSearch() {
 int word::searchCount(){
     return searches;
 }
+
 string word::getTerm() const{
     return term;
 }
