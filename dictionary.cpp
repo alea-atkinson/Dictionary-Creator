@@ -102,7 +102,6 @@ vector<string> Dictionary::searchWord(std::string word) {
             for(int i=0; i<words[index].getSynoynms().size(); i++){
                 wordInfo.push_back(words[index].getSynoynms()[i]);
             }
-            //return true;
     }
     return wordInfo;
 }

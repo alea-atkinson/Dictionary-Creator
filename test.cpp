@@ -101,4 +101,5 @@ TEST_CASE("IMPORT DICTIONARY"){
     REQUIRE(dict.searchWord("consider", "deem to be", {})==true);
     REQUIRE(dict.searchWord("minute", "infinitely or immeasurably small",{})==true);
     REQUIRE(dict.searchWord("accord", "concurrence of opinion" ,{})==true);
-}*/
+}
+*/

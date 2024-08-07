@@ -28,14 +28,15 @@ void word::addSynonym(string synonym) {
     synonyms.push_back(synonym);
 }
 
-int word::addSearch() {
+
+void word::addSearch() {
     searches++;
-    return searches;
 }
 
 int word::searchCount(){
     return searches;
 }
+
 string word::getTerm() const{
     return term;
 }
