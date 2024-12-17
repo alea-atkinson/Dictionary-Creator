@@ -39,3 +39,4 @@ string word::getDefinition() const{
 vector<string> word::getSynoynms() const{
     return synonyms;
 }
+
